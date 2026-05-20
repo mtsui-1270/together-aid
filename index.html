@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Together.aid — Global Healthcare Access</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F5F0E8;
+    --dark: #1A1A2E;
+    --teal: #0F7B6C;
+    --teal-light: #E0F2EF;
+    --coral: #E85D3A;
+    --gold: #C9963A;
+    --muted: #6B7280;
+    --border: rgba(26,26,46,0.1);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--dark);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 4rem;
+    background: rgba(245,240,232,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 0.5px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Fraunces', serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--dark);
+    text-decoration: none;
+    letter-spacing: -0.02em;
+  }
+
+  .nav-logo span { color: var(--teal); }
+
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+
+  .nav-links a {
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--dark); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 8rem 4rem 4rem;
+    gap: 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -100px; right: -100px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(15,123,108,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.2s;
+  }
+
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(3rem, 5vw, 5rem);
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.4s;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    font-weight: 300;
+    color: var(--teal);
+  }
+
+  .hero-desc {
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: var(--muted);
+    max-width: 480px;
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.6s;
+  }
+
+  .hero-cta {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.8s;
+  }
+
+  .btn-primary {
+    display: inline-block;
+    padding: 0.85rem 2rem;
+    background: var(--dark);
+    color: var(--cream);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    border-radius: 2px;
+    transition: background 0.2s, transform 0.2s;
+  }
+
+  .btn-primary:hover { background: var(--teal); transform: translateY(-1px); }
+
+  .btn-secondary {
+    display: inline-block;
+    padding: 0.85rem 2rem;
+    border: 1px solid var(--border);
+    color: var(--dark);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 400;
+    border-radius: 2px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .btn-secondary:hover { border-color: var(--dark); transform: translateY(-1px); }
+
+  .hero-right {
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 1s;
+  }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .stat-card {
+    background: white;
+    border: 0.5px solid var(--border);
+    border-radius: 4px;
+    padding: 1.5rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .stat-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+
+  .stat-card:first-child { grid-column: span 2; background: var(--teal); color: white; border-color: var(--teal); }
+
+  .stat-number {
+    font-family: 'Fraunces', serif;
+    font-size: 2.5rem;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-card:first-child .stat-number { color: white; }
+  .stat-card:first-child .stat-label { color: rgba(255,255,255,0.75); }
+
+  .stat-label {
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  /* ── SECTION BASE ── */
+  section { padding: 6rem 4rem; }
+
+  .section-tag {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 0.75rem;
+  }
+
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+
+  .section-subtitle {
+    font-size: 1rem;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 560px;
+    margin-bottom: 3rem;
+  }
+
+  /* ── PROBLEMS ── */
+  .problems { background: white; }
+
+  .problems-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+    border: 0.5px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 3rem;
+  }
+
+  .problem-card {
+    padding: 2.5rem;
+    border-right: 0.5px solid var(--border);
+    border-bottom: 0.5px solid var(--border);
+    transition: background 0.2s;
+  }
+
+  .problem-card:nth-child(2n) { border-right: none; }
+  .problem-card:nth-child(3), .problem-card:nth-child(4) { border-bottom: none; }
+  .problem-card:hover { background: var(--cream); }
+
+  .problem-number {
+    font-family: 'Fraunces', serif;
+    font-size: 3rem;
+    font-weight: 300;
+    color: var(--border);
+    line-height: 1;
+    margin-bottom: 1rem;
+    letter-spacing: -0.05em;
+  }
+
+  .problem-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.02em;
+  }
+
+  .problem-desc {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  .problem-accent {
+    display: inline-block;
+    margin-top: 1rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--coral);
+  }
+
+  /* ── DATA ── */
+  .data-section { background: var(--cream); }
+
+  .viz-block {
+    margin-bottom: 5rem;
+  }
+
+  .viz-block:last-child { margin-bottom: 0; }
+
+  .viz-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .viz-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.4rem;
+  }
+
+  .viz-desc {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.6;
+    max-width: 500px;
+  }
+
+  .viz-source {
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    margin-top: 0.25rem;
+  }
+
+  .viz-frame {
+    width: 100%;
+    height: 560px;
+    border: 0.5px solid var(--border);
+    border-radius: 4px;
+    background: white;
+    overflow: hidden;
+  }
+
+  .viz-frame iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  .viz-placeholder {
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 1rem; color: var(--muted);
+    font-size: 0.875rem;
+  }
+
+  .viz-placeholder-icon {
+    font-size: 2.5rem;
+    opacity: 0.3;
+  }
+
+  /* ── SOLUTIONS ── */
+  .solutions { background: white; }
+
+  .solutions-intro {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+    margin-bottom: 4rem;
+  }
+
+  .resource-list { list-style: none; }
+
+  .resource-item {
+    padding: 1.25rem 0;
+    border-bottom: 0.5px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .resource-item:first-child { border-top: 0.5px solid var(--border); }
+
+  .resource-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--teal);
+    margin-top: 0.35rem;
+    flex-shrink: 0;
+  }
+
+  .resource-name {
+    font-weight: 500;
+    font-size: 0.9rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .resource-desc {
+    font-size: 0.825rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .resource-link {
+    display: inline-block;
+    margin-top: 0.4rem;
+    font-size: 0.75rem;
+    color: var(--teal);
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .resource-link:hover { text-decoration: underline; }
+
+  /* ── ABOUT ── */
+  .about {
+    background: var(--dark);
+    color: white;
+  }
+
+  .about .section-tag { color: rgba(255,255,255,0.4); }
+  .about .section-title { color: white; }
+  .about .section-subtitle { color: rgba(255,255,255,0.55); }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    margin-top: 2rem;
+  }
+
+  .tool-chip {
+    padding: 0.6rem 1rem;
+    border: 0.5px solid rgba(255,255,255,0.15);
+    border-radius: 2px;
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.7);
+    text-align: center;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .tool-chip:hover { border-color: var(--teal); color: white; }
+
+  .kwk-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: rgba(15,123,108,0.15);
+    border: 0.5px solid rgba(15,123,108,0.3);
+    border-radius: 2px;
+    font-size: 0.8rem;
+    color: #5DCAA5;
+    margin-bottom: 1.5rem;
+  }
+
+  .about-text {
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 1rem;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--dark);
+    border-top: 0.5px solid rgba(255,255,255,0.06);
+    padding: 2rem 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-logo {
+    font-family: 'Fraunces', serif;
+    font-size: 1.1rem;
+    color: white;
+    letter-spacing: -0.02em;
+  }
+
+  .footer-logo span { color: #5DCAA5; }
+
+  .footer-credits {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.3);
+  }
+
+  .data-sources {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.3);
+    text-align: right;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    width: 40px; height: 2px;
+    background: var(--teal);
+    margin-bottom: 2rem;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; padding: 7rem 1.5rem 3rem; }
+    .hero-right { display: none; }
+    section { padding: 4rem 1.5rem; }
+    .problems-grid { grid-template-columns: 1fr; }
+    .problem-card { border-right: none; }
+    .problem-card:nth-child(3) { border-bottom: 0.5px solid var(--border); }
+    .solutions-intro { grid-template-columns: 1fr; gap: 2rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem 1.5rem; }
+    .data-sources { text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <a href="#" class="nav-logo">Together<span>.aid</span></a>
+  <ul class="nav-links">
+    <li><a href="#problems">The Problems</a></li>
+    <li><a href="#data">Data</a></li>
+    <li><a href="#solutions">Solutions</a></li>
+    <li><a href="#about">About</a></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-left">
+    <p class="hero-eyebrow">Global Healthcare Access</p>
+    <h1>Healthcare is a <em>right,</em> not a privilege.</h1>
+    <p class="hero-desc">Together.aid explores the world's most pressing healthcare challenges — from insurance gaps to worker shortages — and connects people with the resources they need.</p>
+    <div class="hero-cta">
+      <a href="#problems" class="btn-primary">Explore the Data</a>
+      <a href="#solutions" class="btn-secondary">Find Resources</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-number">4.5B</div>
+        <div class="stat-label">People lack access to essential health services worldwide</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">~40%</div>
+        <div class="stat-label">Of health spending in low-income countries comes from people's own pockets</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">55M+</div>
+        <div class="stat-label">Additional health workers needed globally by 2030</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PROBLEMS ── -->
+<section class="problems" id="problems">
+  <p class="section-tag">The Issues</p>
+  <h2 class="section-title">Four crises, one system.</h2>
+  <p class="section-subtitle">Global healthcare is failing billions of people across four interconnected dimensions. Understanding them is the first step to solving them.</p>
+  <div class="divider"></div>
+
+  <div class="problems-grid">
+    <div class="problem-card">
+      <div class="problem-number">01</div>
+      <h3 class="problem-title">Insurance Coverage Gaps</h3>
+      <p class="problem-desc">Hundreds of millions of people have no health insurance at all. Without coverage, a single illness can mean financial ruin — or going without care entirely.</p>
+      <span class="problem-accent">↑ Growing in low-income regions</span>
+    </div>
+    <div class="problem-card">
+      <div class="problem-number">02</div>
+      <h3 class="problem-title">Healthcare Affordability</h3>
+      <p class="problem-desc">Even when care exists, people in low-income countries pay a disproportionate share out of their own pocket — pushing families into poverty to stay alive.</p>
+      <span class="problem-accent">↑ Up to 40% OOP in some regions</span>
+    </div>
+    <div class="problem-card">
+      <div class="problem-number">03</div>
+      <h3 class="problem-title">Quality Disparities</h3>
+      <p class="problem-desc">Access to care is meaningless without quality. Healthcare quality scores vary dramatically between high and low-income nations, creating a two-tier global system.</p>
+      <span class="problem-accent">↑ 3× gap between richest and poorest</span>
+    </div>
+    <div class="problem-card">
+      <div class="problem-number">04</div>
+      <h3 class="problem-title">Worker Shortages</h3>
+      <p class="problem-desc">The world faces a critical shortage of doctors, nurses, and health workers — especially in sub-Saharan Africa and South Asia where the need is greatest.</p>
+      <span class="problem-accent">↑ 55M+ workers needed by 2030</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── DATA ── -->
+<section class="data-section" id="data">
+  <p class="section-tag">The Evidence</p>
+  <h2 class="section-title">What the data shows.</h2>
+  <p class="section-subtitle">Interactive visualizations built from WHO and global health databases, updated with the most recent available data.</p>
+  <div class="divider"></div>
+
+  <!-- Viz 1 -->
+  <div class="viz-block">
+    <div class="viz-header">
+      <div>
+        <div class="viz-title">Healthcare Quality Around the World</div>
+        <div class="viz-desc">The Universal Health Coverage index measures how well each country delivers essential health services to its population. Darker blue = better coverage.</div>
+      </div>
+      <div class="viz-source">Source: Our World in Data · WHO UHC Index</div>
+    </div>
+    <div class="viz-frame">
+      <iframe
+        src="https://mtsui-1270.github.io/together-aid/visualizations/healthcare_quality_map.html"
+        title="Healthcare Quality World Map"
+        loading="lazy">
+      </iframe>
+    </div>
+  </div>
+
+  <!-- Viz 2 -->
+  <div class="viz-block">
+    <div class="viz-header">
+      <div>
+        <div class="viz-title">Who Pays the Most Out of Pocket?</div>
+        <div class="viz-desc">Countries with lower GDP per capita force their citizens to pay a far higher share of healthcare costs themselves — the people least able to afford it bear the greatest burden.</div>
+      </div>
+      <div class="viz-source">Source: WHO Global Health Expenditure Database</div>
+    </div>
+    <div class="viz-frame">
+      <iframe
+        src="https://mtsui-1270.github.io/together-aid/visualizations/healthcare_affordability_scatter.html"
+        title="Healthcare Affordability Scatter Plot"
+        loading="lazy">
+      </iframe>
+    </div>
+  </div>
+
+  <!-- Viz 3 placeholder -->
+  <div class="viz-block">
+    <div class="viz-header">
+      <div>
+        <div class="viz-title">Government Health Spending by Region</div>
+        <div class="viz-desc">How much governments invest in healthcare reveals who is protected by public systems — and who is left to fend for themselves.</div>
+      </div>
+      <div class="viz-source">Source: WHO Global Health Expenditure Database</div>
+    </div>
+    <div class="viz-frame">
+      <div class="viz-placeholder">
+        <div class="viz-placeholder-icon">📊</div>
+        <div>Visualization coming soon</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Viz 4 placeholder -->
+  <div class="viz-block">
+    <div class="viz-header">
+      <div>
+        <div class="viz-title">Healthcare Worker Shortages by Country</div>
+        <div class="viz-desc">The global distribution of doctors, nurses, and health workers shows a stark imbalance — the regions that need the most care have the fewest people to provide it.</div>
+      </div>
+      <div class="viz-source">Source: WHO Global Health Observatory</div>
+    </div>
+    <div class="viz-frame">
+      <div class="viz-placeholder">
+        <div class="viz-placeholder-icon">🗺️</div>
+        <div>Visualization coming soon</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SOLUTIONS ── -->
+<section class="solutions" id="solutions">
+  <p class="section-tag">What You Can Do</p>
+  <h2 class="section-title">Access. Resources. Action.</h2>
+  <p class="section-subtitle">Information is the first step. Here are real, affordable options for people navigating the global healthcare system.</p>
+  <div class="divider"></div>
+
+  <div class="solutions-intro">
+    <div>
+      <h3 style="font-family:'Fraunces',serif; font-size:1.2rem; margin-bottom:1rem; letter-spacing:-0.02em;">For Uninsured Individuals</h3>
+      <ul class="resource-list">
+        <li class="resource-item">
+          <div class="resource-dot"></div>
+          <div>
+            <div class="resource-name">Community Health Centers</div>
+            <div class="resource-desc">Federally funded clinics that provide care on a sliding-scale fee based on income — regardless of insurance status.</div>
+            <a href="https://findahealthcenter.hrsa.gov" target="_blank" class="resource-link">Find a center near you →</a>
+          </div>
+        </li>
+        <li class="resource-item">
+          <div class="resource-dot"></div>
+          <div>
+            <div class="resource-name">Medicaid & CHIP</div>
+            <div class="resource-desc">US government programs offering free or low-cost health coverage to eligible low-income adults, children, and families.</div>
+            <a href="https://www.medicaid.gov" target="_blank" class="resource-link">Check eligibility →</a>
+          </div>
+        </li>
+        <li class="resource-item">
+          <div class="resource-dot"></div>
+          <div>
+            <div class="resource-name">HealthCare.gov Marketplace</div>
+            <div class="resource-desc">Compare and enroll in health insurance plans, with subsidies available based on income level.</div>
+            <a href="https://www.healthcare.gov" target="_blank" class="resource-link">Browse plans →</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <h3 style="font-family:'Fraunces',serif; font-size:1.2rem; margin-bottom:1rem; letter-spacing:-0.02em;">Global Resources</h3>
+      <ul class="resource-list">
+        <li class="resource-item">
+          <div class="resource-dot"></div>
+          <div>
+            <div class="resource-name">WHO Essential Medicines List</div>
+            <div class="resource-desc">A global standard of the most effective, safe, and cost-effective medicines needed in a health system.</div>
+            <a href="https://www.who.int/groups/expert-committee-on-selection-and-use-of-essential-medicines/essential-medicines-lists" target="_blank" class="resource-link">View the list →</a>
+          </div>
+        </li>
+        <li class="resource-item">
+          <div class="resource-dot"></div>
+          <div>
+            <div class="resource-name">Partners in Health</div>
+            <div class="resource-desc">A nonprofit providing healthcare to the world's poorest communities — and advocating for health as a human right.</div>
+            <a href="https://www.pih.org" target="_blank" class="resource-link">Learn more →</a>
+          </div>
+        </li>
+        <li class="resource-item">
+          <div class="resource-dot"></div>
+          <div>
+            <div class="resource-name">Doctors Without Borders</div>
+            <div class="resource-desc">Medical humanitarian organization delivering emergency care where it's needed most, regardless of politics or borders.</div>
+            <a href="https://www.doctorswithoutborders.org" target="_blank" class="resource-link">Support their work →</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ── ABOUT ── -->
+<section class="about" id="about">
+  <div class="about-grid">
+    <div>
+      <p class="section-tag">About This Project</p>
+      <h2 class="section-title" style="color:white;">Built to inform.<br>Designed to act.</h2>
+      <div class="divider"></div>
+      <div class="kwk-badge">
+        ✦ Kode With Klossy · Data Science Camp
+      </div>
+      <p class="about-text">Together.aid was created as part of the Kode With Klossy Data Science program — a camp dedicated to empowering young women in tech and data.</p>
+      <p class="about-text">This project uses real WHO and global health data to visualize healthcare inequalities and connect people with resources. Every chart is built from scratch using Python and real-world datasets.</p>
+      <p class="about-text">The goal is simple: more people should understand these issues, and more people should know help exists.</p>
+    </div>
+    <div>
+      <p style="font-size:0.75rem; letter-spacing:0.15em; text-transform:uppercase; color:rgba(255,255,255,0.35); margin-bottom:1.5rem;">Tools & Technologies</p>
+      <div class="tools-grid">
+        <div class="tool-chip">Python</div>
+        <div class="tool-chip">Pandas</div>
+        <div class="tool-chip">Plotly</div>
+        <div class="tool-chip">GitHub Pages</div>
+        <div class="tool-chip">HTML / CSS</div>
+        <div class="tool-chip">WHO Data</div>
+        <div class="tool-chip">Our World in Data</div>
+        <div class="tool-chip">GHED</div>
+        <div class="tool-chip">KWK</div>
+      </div>
+      <div style="margin-top:3rem; padding:1.5rem; border:0.5px solid rgba(255,255,255,0.08); border-radius:4px;">
+        <p style="font-size:0.75rem; letter-spacing:0.12em; text-transform:uppercase; color:rgba(255,255,255,0.35); margin-bottom:1rem;">Data Sources</p>
+        <p style="font-size:0.825rem; color:rgba(255,255,255,0.45); line-height:1.8;">
+          WHO Global Health Expenditure Database (GHED)<br>
+          Our World in Data · UHC Service Coverage Index<br>
+          WHO Global Health Observatory<br>
+          Kaiser Family Foundation (KFF)
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-logo">Together<span>.aid</span></div>
+  <div class="footer-credits">Made with Python + GitHub Pages · Kode With Klossy Data Science</div>
+  <div class="data-sources">Data: WHO · Our World in Data · KFF</div>
+</footer>
+
+</body>
+</html>
